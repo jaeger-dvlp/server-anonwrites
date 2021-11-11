@@ -8,6 +8,7 @@ const writes = [
     writeAuthor: 'jaeger-dvlp',
     writeContent:
       'Duo prompta dolorem consequat ne, id vis feugait cotidieque? Antiopam partiendo mea ad. Nam agam contentiones ad, odio quodsi sea no, nam ex quod brute disputationi.',
+    writeCategories: ['war'],
     writeDate: '01/01/2021',
     writeTime: '00:00'
   },
@@ -16,6 +17,7 @@ const writes = [
     writeAuthor: 'lynicis',
     writeContent:
       'Has dicit pericula ea, sed at debitis facilis, nibh placerat eu sea. Aperiam ornatus signiferumque cum in.',
+    writeCategories: ['world', 'war', 'politic'],
     writeDate: '01/01/2021',
     writeTime: '00:00'
   },
@@ -24,6 +26,7 @@ const writes = [
     writeAuthor: 'cartApp',
     writeContent:
       'Vim id option recteque, epicuri nominavi ne vim. Nam ad vero ferri, has ne homero munere deserunt, munere nusquam et sea.',
+    writeCategories: ['politic'],
     writeDate: '01/01/2021',
     writeTime: '00:00'
   },
@@ -32,6 +35,7 @@ const writes = [
     writeAuthor: 'Anonym',
     writeContent:
       'Qui summo habemus nominavi et, no simul nostrum vel. Vim alienum delicatissimi id. Ut postea hendrerit scriptorem ius, nam omnis oblique id.',
+    writeCategories: ['world'],
     writeDate: '01/01/2021',
     writeTime: '00:00'
   },
@@ -40,6 +44,7 @@ const writes = [
     writeAuthor: 'schiesseGuy',
     writeContent:
       'Sonet timeam invenire mei te, cum officiis adipisci mediocritatem ei! Denique referrentur ut nec, ut soleat aeterno menandri duo, euismod nonumes adipiscing ad eos!',
+    writeCategories: ['world'],
     writeDate: '01/01/2021',
     writeTime: '00:00'
   },
@@ -48,6 +53,7 @@ const writes = [
     writeAuthor: 'JohnDoe',
     writeContent:
       'Has dicit pericula ea, sed at debitis facilis, nibh placerat eu sea. Aperiam ornatus signiferumque cum in.',
+    writeCategories: ['world', 'war', 'politic'],
     writeDate: '01/01/2021',
     writeTime: '00:00'
   },
@@ -56,6 +62,7 @@ const writes = [
     writeAuthor: 'Anonym',
     writeContent:
       'Vim id option recteque, epicuri nominavi ne vim. Nam ad vero ferri, has ne homero munere deserunt, munere nusquam et sea.',
+    writeCategories: ['world'],
     writeDate: '01/01/2021',
     writeTime: '00:00'
   },
@@ -64,6 +71,7 @@ const writes = [
     writeAuthor: 'Anonym',
     writeContent:
       'Qui summo habemus nominavi et, no simul nostrum vel. Vim alienum delicatissimi id. Ut postea hendrerit scriptorem ius, nam omnis oblique id.',
+    writeCategories: ['world'],
     writeDate: '01/01/2021',
     writeTime: '00:00'
   },
@@ -72,6 +80,7 @@ const writes = [
     writeAuthor: 'Anonym',
     writeContent:
       'Sonet timeam invenire mei te, cum officiis adipisci mediocritatem ei! Denique referrentur ut nec, ut soleat aeterno menandri duo, euismod nonumes adipiscing ad eos!',
+    writeCategories: ['world', 'war', 'politic'],
     writeDate: '01/01/2021',
     writeTime: '00:00'
   }
@@ -88,6 +97,10 @@ app.use(allowCrossDomain)
 
 app.get('/getWrites', (req, res) => {
   res.json(writes)
+})
+
+app.get('/getWrites/category/:categoryName', (req, res) => {
+  res.json(req.params.categoryName)
 })
 
 app.listen(port, (err) => {
