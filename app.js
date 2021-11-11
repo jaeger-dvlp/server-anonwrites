@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const port = 3050
 
+const categories = ['war', 'world', 'politic']
+
 const writes = [
   {
     writeId: 0,
@@ -100,7 +102,18 @@ app.get('/getWrites', (req, res) => {
 })
 
 app.get('/getWrites/category/:categoryName', (req, res) => {
-  res.json(req.params.categoryName)
+  let writesToSendByCategory = []
+  writes.map((write) => {
+    if (write.writeCategories.includes(req.params.categoryName) === true) {
+      writesToSendByCategory.push(write)
+    }
+  })
+
+  res.json(writesToSendByCategory)
+})
+
+app.get('/getCategories', (req, res) => {
+  res.json(categories)
 })
 
 app.listen(port, (err) => {
