@@ -98,7 +98,9 @@ let allowCrossDomain = function (req, res, next) {
 app.use(allowCrossDomain)
 
 app.get('/getWrites', (req, res) => {
-  res.json(writes)
+  setTimeout(() => {
+    res.json(writes)
+  }, 3000)
 })
 
 app.get('/getWrites/category/:categoryName', (req, res) => {
@@ -108,8 +110,9 @@ app.get('/getWrites/category/:categoryName', (req, res) => {
       writesToSendByCategory.push(write)
     }
   })
-
-  res.json(writesToSendByCategory)
+  setTimeout(() => {
+    res.json(writesToSendByCategory)
+  }, 2000)
 })
 
 app.get('/getCategories', (req, res) => {
