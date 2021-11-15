@@ -40,21 +40,21 @@ const getAllWriteCategories = (res) => {
 app.get('/getWrites', async (req, res) => {
   setTimeout(() => {
     getAllWrites(res)
-  }, 1000)
+  }, 2000)
 })
 
 app.get('/getWrites/category/:categoryName', (req, res) => {
   if (categories.includes(req.params.categoryName) === true) {
     setTimeout(() => {
       getWritesByCategory(res, req.params.categoryName)
-    }, 1000)
+    }, 2000)
   }
 })
 
 app.get('/getCategories', (req, res) => {
   setTimeout(() => {
     getAllWriteCategories(res)
-  }, 500)
+  })
 })
 3
 app.listen(port, (err) => {
