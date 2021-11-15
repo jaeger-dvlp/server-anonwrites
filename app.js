@@ -3,7 +3,7 @@ require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
 const app = express()
-const port = 3050
+const port = process.env.PORT || 5000
 
 const uri = `mongodb+srv://adminUser:${process.env.DBPWD}@anonwritescluster.rbktj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 
@@ -87,13 +87,13 @@ const pushNewWrite = (data, res) => {
   })
 }
 
-app.get('/getWrites', async (req, res) => {
+app.get('/api/getWrites', async (req, res) => {
   setTimeout(() => {
     getAllWrites(res)
   }, 2000)
 })
 
-app.get('/getWrites/category/:categoryName', (req, res) => {
+app.get('/api/getWrites/category/:categoryName', (req, res) => {
   if (categories.includes(req.params.categoryName) === true) {
     setTimeout(() => {
       getWritesByCategory(res, req.params.categoryName)
@@ -101,13 +101,13 @@ app.get('/getWrites/category/:categoryName', (req, res) => {
   }
 })
 
-app.get('/getCategories', (req, res) => {
+app.get('/api/getCategories', (req, res) => {
   setTimeout(() => {
     getAllWriteCategories(res)
   })
 })
 
-app.post('/newWrite', (req, res) => {
+app.post('/api/newWrite', (req, res) => {
   req.body !== undefined
     ? setTimeout(() => {
         pushNewWrite(req.body, res)
