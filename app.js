@@ -30,35 +30,58 @@ app.use(express.json())
 const getAllWrites = (res) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('writes')
-    res.json(await anonDB.find().toArray())
-    client.close()
+    try {
+      await anonDB.find().toArray()
+    } catch (error) {
+      await res.json({status: 400, message: 'error'})
+    } finally {
+      await res.json(await anonDB.find().toArray())
+    }
+    await client.close()
   })
 }
 
 const getWritesByCategory = (res, category) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('writes')
-    res.json(await anonDB.find({writeCategories: category}).toArray())
-    client.close()
+    try {
+      await anonDB.find({writeCategories: category}).toArray()
+    } catch (error) {
+      await res.json({status: 400, message: 'error'})
+    } finally {
+      await res.json(await anonDB.find({writeCategories: category}).toArray())
+    }
+    await client.close()
   })
 }
 
 const getAllWriteCategories = (res) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('categories')
-    res.json(await anonDB.find().toArray())
-    client.close()
+    try {
+      await anonDB.find().toArray()
+    } catch (error) {
+      await res.json({status: 400, message: 'error'})
+    } finally {
+      await res.json(await anonDB.find().toArray())
+    }
+    await client.close()
   })
 }
 
 const pushNewWrite = (data, res) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('writes')
-    await anonDB.insertOne({
-      writeContent: data.write,
-      writeCategories: data.categories
-    })
-    await res.json('Successful!')
+    try {
+      await anonDB.insertOne({
+        writeContent: data.write,
+        writeCategories: data.categories
+      })
+    } catch (error) {
+      await res.json({status: 400, message: 'error'})
+    } finally {
+      await res.json({status: 200, message: 'success'})
+    }
     await client.close()
   })
 }
@@ -88,7 +111,7 @@ app.post('/newWrite', (req, res) => {
     ? setTimeout(() => {
         pushNewWrite(req.body, res)
       }, 2000)
-    : ''
+    : res.json({status: 400, message: 'error'})
 })
 
 app.listen(port, (err) => {
