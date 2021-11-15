@@ -1,10 +1,11 @@
 const MongoClient = require('mongodb').MongoClient
+require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
 const app = express()
 const port = 3050
 
-const uri = 'mongodb://localhost:27017'
+const uri = `mongodb+srv://adminUser:${process.env.DBPWD}@anonwritescluster.rbktj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 
 const categories = [
   'world',
