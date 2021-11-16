@@ -12,7 +12,7 @@ const categories = [
   'war',
   'politic',
   'religion',
-  'usa',
+  'europe',
   'science',
   'tech'
 ]
