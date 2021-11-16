@@ -75,6 +75,7 @@ const pushNewWrite = (data, res) => {
     let anonDB = client.db('anonwrites').collection('writes')
     try {
       await anonDB.insertOne({
+        writeAuthor: data.writeAuthor,
         writeContent: data.write,
         writeCategories: data.categories
       })
