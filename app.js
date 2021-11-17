@@ -91,20 +91,18 @@ const pushNewWrite = (data, res) => {
   })
 }
 
-const pushNewRequest = async (reqIp, reqUrl) => {
+const pushNewRequest = (reqIp, reqUrl) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('requests')
     try {
-      await anonDB.insertOne({
+      anonDB.insertOne({
         requestIp: reqIp,
         requestUrl: reqUrl
       })
     } catch (error) {
-      await console.log(`\n[ ! ERR ! ]\n|\n| Error : ${error}\n|\n[ ! ]`)
+      console.log(`\n[ ! ERR ! ]\n|\n| Error : ${error}\n|\n[ ! ]`)
     } finally {
-      await console.log(
-        `\n[ ! ]\n|\n| New Request is pushed to database.\n|\n[ ! ]`
-      )
+      console.log(`\n[ ! ]\n|\n| New Request is pushed to database.\n|\n[ ! ]`)
     }
     await client.close()
   })
