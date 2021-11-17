@@ -91,8 +91,8 @@ const pushNewWrite = (data, res) => {
   })
 }
 
-const pushNewRequest = (reqIp, reqUrl) => {
-  MongoClient.connect(uri, (err, client) => {
+const pushNewRequest = async (reqIp, reqUrl) => {
+  MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('requests')
     try {
       await anonDB.insertOne({
