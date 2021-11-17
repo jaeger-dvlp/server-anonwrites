@@ -39,7 +39,7 @@ const getAllWrites = (res) => {
     } catch (error) {
       await res.json({status: 400, message: 'error'})
     } finally {
-      await res.json(await anonDB.find().toArray())
+      await res.json(await (await anonDB.find().toArray()).reverse())
     }
     await client.close()
   })
@@ -53,7 +53,11 @@ const getWritesByCategory = (res, category) => {
     } catch (error) {
       await res.json({status: 400, message: 'error'})
     } finally {
-      await res.json(await anonDB.find({writeCategories: category}).toArray())
+      await res.json(
+        await (
+          await anonDB.find({writeCategories: category}).toArray()
+        ).reverse()
+      )
     }
     await client.close()
   })
@@ -67,7 +71,7 @@ const getAllWriteCategories = (res) => {
     } catch (error) {
       await res.json({status: 400, message: 'error'})
     } finally {
-      await res.json(await anonDB.find().toArray())
+      await res.json(await await anonDB.find().toArray())
     }
     await client.close()
   })
