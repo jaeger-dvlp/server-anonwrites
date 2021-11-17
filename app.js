@@ -1,10 +1,12 @@
 const MongoClient = require('mongodb').MongoClient
-require('dotenv').config()
-const cors = require('cors')
+const requestIp = require('request-ip')
 const express = require('express')
+const cors = require('cors')
 const app = express()
-const port = process.env.PORT || 5000
 
+require('dotenv').config()
+
+const port = process.env.PORT || 5000
 const uri = process.env.DB
 
 const categories = [
@@ -17,13 +19,13 @@ const categories = [
   'tech'
 ]
 
-let allowCrossDomain = function (req, res, next) {
+const allowCrossDomain = function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST')
   res.setHeader('Access-Control-Allow-Credentials', true)
   next()
 }
-app.set('trust proxy', true)
+
 app.use(cors())
 app.use(allowCrossDomain)
 app.use(express.urlencoded({extended: true}))
@@ -91,7 +93,9 @@ const pushNewWrite = (data, res) => {
 
 app.get('/api/getWrites', async (req, res) => {
   console.log(
-    `\n[ ! ]\n|\n| Request : /getWrites\n|\n| From :${req.socket.remoteAddress}\n|\n[ ! ]`
+    `\n[ ! ]\n|\n| Request : /getWrites\n|\n| From :${requestIp.getClientIp(
+      req
+    )}\n|\n[ ! ]`
   )
   setTimeout(() => {
     getAllWrites(res)
@@ -114,9 +118,10 @@ app.get('/api/getCategories', (req, res) => {
 
 app.post('/api/newWrite', (req, res) => {
   console.log(
-    `\n[ ! ]\n|\n| Request : /newWrite\n|\n| From :${req.socket.remoteAddress}\n|\n[ ! ]`
+    `\n[ ! ]\n|\n| Request : /newWrite\n|\n| From :${requestIp.getClientIp(
+      req
+    )}\n|\n[ ! ]`
   )
-
   req.body !== undefined
     ? setTimeout(() => {
         pushNewWrite(req.body, res)
