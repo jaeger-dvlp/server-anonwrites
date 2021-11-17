@@ -5,7 +5,7 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 5000
 
-const uri = `mongodb+srv://adminUser:${process.env.DBPWD}@anonwritescluster.rbktj.mongodb.net`
+const uri = process.env.DB
 
 const categories = [
   'world',
