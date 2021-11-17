@@ -89,6 +89,9 @@ const pushNewWrite = (data, res) => {
 }
 
 app.get('/api/getWrites', async (req, res) => {
+  console.log(
+    `\n[ ! ]\n|\n| Request : /getWrites\n|\n| From :${req.socket.remoteAddress}\n|\n[ ! ]`
+  )
   setTimeout(() => {
     getAllWrites(res)
   }, 2000)
@@ -109,6 +112,10 @@ app.get('/api/getCategories', (req, res) => {
 })
 
 app.post('/api/newWrite', (req, res) => {
+  console.log(
+    `\n[ ! ]\n|\n| Request : /newWrite\n|\n| From :${req.socket.remoteAddress}\n|\n[ ! ]`
+  )
+
   req.body !== undefined
     ? setTimeout(() => {
         pushNewWrite(req.body, res)
