@@ -23,6 +23,7 @@ let allowCrossDomain = function (req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', true)
   next()
 }
+app.set('trust proxy', true)
 app.use(cors())
 app.use(allowCrossDomain)
 app.use(express.urlencoded({extended: true}))
