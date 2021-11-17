@@ -115,6 +115,7 @@ app.all('*', (req, res, next) => {
     )}\n|\n[ ! ]`
   )
   // pushNewRequest(requestIp.getClientIp(req), req.url)
+  next()
 })
 
 app.get('/api/getWrites', async (req, res) => {
