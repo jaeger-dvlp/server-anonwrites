@@ -91,12 +91,35 @@ const pushNewWrite = (data, res) => {
   })
 }
 
-app.get('/api/getWrites', async (req, res) => {
+const pushNewRequest = async (reqIp, reqUrl) => {
+  MongoClient.connect(uri, async (err, client) => {
+    let anonDB = client.db('anonwrites').collection('requests')
+    try {
+      await anonDB.insertOne({
+        requestIp: reqIp,
+        requestUrl: reqUrl
+      })
+    } catch (error) {
+      await console.log(`\n[ ! ERR ! ]\n|\n| Error : ${error}\n|\n[ ! ]`)
+    } finally {
+      await console.log(
+        `\n[ ! ]\n|\n| New Request is pushed to database.\n|\n[ ! ]`
+      )
+    }
+    await client.close()
+  })
+}
+
+app.all('*', (req, res, next) => {
   console.log(
-    `\n[ ! ]\n|\n| Request : /getWrites\n|\n| From :${requestIp.getClientIp(
+    `\n[ ! ]\n|\n| Request : ${req.url}\n|\n| From :${requestIp.getClientIp(
       req
     )}\n|\n[ ! ]`
   )
+  pushNewRequest(requestIp.getClientIp(req), req.url)
+})
+
+app.get('/api/getWrites', async (req, res) => {
   setTimeout(() => {
     getAllWrites(res)
   }, 2000)
@@ -117,11 +140,6 @@ app.get('/api/getCategories', (req, res) => {
 })
 
 app.post('/api/newWrite', (req, res) => {
-  console.log(
-    `\n[ ! ]\n|\n| Request : /newWrite\n|\n| From :${requestIp.getClientIp(
-      req
-    )}\n|\n[ ! ]`
-  )
   req.body !== undefined
     ? setTimeout(() => {
         pushNewWrite(req.body, res)
