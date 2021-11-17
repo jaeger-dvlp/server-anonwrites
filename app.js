@@ -114,7 +114,7 @@ app.all('*', (req, res, next) => {
       req
     )}\n|\n[ ! ]`
   )
-  // pushNewRequest(requestIp.getClientIp(req), req.url)
+  pushNewRequest(requestIp.getClientIp(req), req.url)
   next()
 })
 
