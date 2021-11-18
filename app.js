@@ -35,9 +35,11 @@ const getAllWrites = (res) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('writes')
     try {
-      await res.json(await anonDB.find().toArray().reverse())
+      await anonDB.find().toArray().reverse()
     } catch (error) {
-      await res.status(400).json({message: 'An error occurred'})
+      await res.status(500).json({message: 'An error occurred'})
+    } finally {
+      await res.json(await anonDB.find().toArray().reverse())
     }
     await client.close()
   })
@@ -47,11 +49,13 @@ const getWritesByCategory = (res, category) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('writes')
     try {
+      await anonDB.find({writeCategories: category}).toArray().reverse()
+    } catch (error) {
+      await res.status(500).json({message: 'An error occurred'})
+    } finally {
       await res.json(
         await anonDB.find({writeCategories: category}).toArray().reverse()
       )
-    } catch (error) {
-      await res.status(400).json({message: 'An error occurred'})
     }
     await client.close()
   })
@@ -61,9 +65,11 @@ const getAllWriteCategories = (res) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('categories')
     try {
-      await res.json(await anonDB.find().toArray())
+      await anonDB.find().toArray()
     } catch (error) {
-      await res.status(400).json({message: 'An error occurred'})
+      await res.status(500).json({message: 'An error occurred'})
+    } finally {
+      await res.json(await anonDB.find().toArray())
     }
     await client.close()
   })
@@ -79,7 +85,7 @@ const pushNewWrite = (data, res) => {
         writeCategories: data.categories
       })
     } catch (error) {
-      await res.status(400).json({message: 'An error occurred'})
+      await res.status(500).json({message: 'An error occurred'})
     } finally {
       await res.status(200).res.json({message: 'Success'})
     }
@@ -141,7 +147,7 @@ app.post('/api/newWrite', (req, res) => {
     ? setTimeout(() => {
         pushNewWrite(req.body, res)
       }, 2000)
-    : res.json({status: 400, message: 'error'})
+    : res.json({status: 500, message: 'error'})
 })
 
 app.listen(port, (err) => {
