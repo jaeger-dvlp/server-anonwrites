@@ -48,7 +48,7 @@ const getWritesByCategory = (res, category) => {
     let anonDB = client.db('anonwrites').collection('writes')
     try {
       await res.json(
-        (await anonDB.find({writeCategories: category}).toArray()).reverse()
+        await anonDB.find({writeCategories: category}).toArray().reverse()
       )
     } catch (error) {
       await res.json({status: 400, message: 'error'})
