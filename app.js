@@ -80,23 +80,27 @@ const getAllWriteCategories = (res) => {
 const pushNewWrite = (data, res) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('writes')
-    data.categories
-      ? data.categories.length > 3
-        ? await res.status(401).json({message: 'How dare you?!'})
-        : async () => {
-            try {
-              await anonDB.insertOne({
-                writeAuthor: data.writeAuthor,
-                writeContent: data.write,
-                writeCategories: data.categories
-              })
-            } catch (error) {
-              await res.status(500).json({message: 'An error occurred'})
-            } finally {
-              await res.status(200).json({message: 'Success'})
+    try {
+      data.categories
+        ? data.categories.length > 3
+          ? await res.status(401).json({message: 'How dare you?!'})
+          : async () => {
+              try {
+                await anonDB.insertOne({
+                  writeAuthor: data.writeAuthor,
+                  writeContent: data.write,
+                  writeCategories: data.categories
+                })
+              } catch (error) {
+                await res.status(500).json({message: 'An error occurred'})
+              } finally {
+                await res.status(200).json({message: 'Success'})
+              }
             }
-          }
-      : await res.status(2003).json({message: 'Category list is empty.'})
+        : await res.status(2003).json({message: 'Category list is empty.'})
+    } catch (serverErr) {
+      await res.status(500).json({message: 'An error occurred'})
+    }
     await client.close()
   })
 }
