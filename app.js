@@ -37,7 +37,8 @@ const getAllWrites = (res) => {
     try {
       await res.json(await anonDB.find().toArray().reverse())
     } catch (error) {
-      await res.status(400).res.json({message: 'An error occurred'})
+      await res.status(400)
+      await res.json({message: 'An error occurred'})
     }
     await client.close()
   })
@@ -51,7 +52,8 @@ const getWritesByCategory = (res, category) => {
         await anonDB.find({writeCategories: category}).toArray().reverse()
       )
     } catch (error) {
-      await res.status(400).res.json({message: 'An error occurred'})
+      await res.status(400)
+      await res.json({message: 'An error occurred'})
     }
     await client.close()
   })
@@ -79,7 +81,8 @@ const pushNewWrite = (data, res) => {
         writeCategories: data.categories
       })
     } catch (error) {
-      await res.status(400).res.json({message: 'An error occurred'})
+      await res.status(400)
+      await res.json({message: 'An error occurred'})
     } finally {
       await res.status(200).res.json({message: 'Success'})
     }
