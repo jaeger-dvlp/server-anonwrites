@@ -96,7 +96,7 @@ const pushNewWrite = (data, res) => {
               await res.status(200).json({message: 'Success'})
             }
           }
-      : ''
+      : await res.status(2003).json({message: 'Category list is empty.'})
     await client.close()
   })
 }
@@ -155,7 +155,7 @@ app.post('/api/newWrite', (req, res) => {
     ? setTimeout(() => {
         pushNewWrite(req.body, res)
       }, 2000)
-    : res.json({status: 500, message: 'error'})
+    : res.json({status: 204, message: 'Body is empty.'})
 })
 
 app.listen(port, (err) => {
