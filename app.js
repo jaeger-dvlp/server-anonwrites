@@ -39,7 +39,7 @@ const getAllWrites = (res) => {
     } catch (error) {
       await res.status(500).json({message: 'An error occurred'})
     } finally {
-      await res.json(await anonDB.find().toArray().reverse())
+      await res.status(200).json(anonDB.find().toArray().reverse())
     }
     await client.close()
   })
