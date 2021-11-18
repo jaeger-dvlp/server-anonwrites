@@ -39,7 +39,7 @@ const getAllWrites = (res) => {
     } catch (error) {
       await res.status(500).json({message: 'An error occurred'})
     } finally {
-      await res.status(200).json(anonDB.find().toArray().reverse())
+      await res.status(200).json((await anonDB.find().toArray()).reverse())
     }
     await client.close()
   })
@@ -49,13 +49,15 @@ const getWritesByCategory = (res, category) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('writes')
     try {
-      await anonDB.find({writeCategories: category}).toArray().reverse()
+      await anonDB.find({writeCategories: category}).toArray()
     } catch (error) {
       await res.status(500).json({message: 'An error occurred'})
     } finally {
-      await res.json(
-        await anonDB.find({writeCategories: category}).toArray().reverse()
-      )
+      await res
+        .status(200)
+        .json(
+          (await anonDB.find({writeCategories: category}).toArray()).reverse()
+        )
     }
     await client.close()
   })
@@ -69,7 +71,7 @@ const getAllWriteCategories = (res) => {
     } catch (error) {
       await res.status(500).json({message: 'An error occurred'})
     } finally {
-      await res.json(await anonDB.find().toArray())
+      await res.status(200).json(await anonDB.find().toArray())
     }
     await client.close()
   })
@@ -87,7 +89,7 @@ const pushNewWrite = (data, res) => {
     } catch (error) {
       await res.status(500).json({message: 'An error occurred'})
     } finally {
-      await res.status(200).res.json({message: 'Success'})
+      await res.status(200).json({message: 'Success'})
     }
     await client.close()
   })
