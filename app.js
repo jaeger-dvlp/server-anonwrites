@@ -82,7 +82,7 @@ const pushNewWrite = (data, res) => {
     let anonDB = client.db('anonwrites').collection('writes')
     data.categories.length > 3
       ? await res.status(401).json({message: 'How dare you?!'})
-      : () => {
+      : async () => {
           try {
             await anonDB.insertOne({
               writeAuthor: data.writeAuthor,
