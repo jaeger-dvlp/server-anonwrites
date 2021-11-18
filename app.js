@@ -35,11 +35,9 @@ const getAllWrites = (res) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('writes')
     try {
-      await anonDB.find().toArray()
+      await res.json(await anonDB.find().toArray().reverse())
     } catch (error) {
       await res.json({status: 400, message: 'error'})
-    } finally {
-      await res.json(await (await anonDB.find().toArray()).reverse())
     }
     await client.close()
   })
@@ -49,15 +47,11 @@ const getWritesByCategory = (res, category) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('writes')
     try {
-      await anonDB.find({writeCategories: category}).toArray()
+      await res.json(
+        (await anonDB.find({writeCategories: category}).toArray()).reverse()
+      )
     } catch (error) {
       await res.json({status: 400, message: 'error'})
-    } finally {
-      await res.json(
-        await (
-          await anonDB.find({writeCategories: category}).toArray()
-        ).reverse()
-      )
     }
     await client.close()
   })
@@ -67,11 +61,9 @@ const getAllWriteCategories = (res) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('categories')
     try {
-      await anonDB.find().toArray()
+      await res.json(await anonDB.find().toArray())
     } catch (error) {
       await res.json({status: 400, message: 'error'})
-    } finally {
-      await res.json(await await anonDB.find().toArray())
     }
     await client.close()
   })
