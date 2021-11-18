@@ -80,6 +80,7 @@ const getAllWriteCategories = (res) => {
 const pushNewWrite = (data, res) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('writes')
+    console.log(data.categories)
     data.categories.length > 3
       ? await res.status(401).json({message: 'How dare you?!'})
       : async () => {
