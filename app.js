@@ -105,7 +105,9 @@ const pushNewWrite = (data, res) => {
           }
         }
       } else {
-        await res.status(203).json({message: 'Category list is empty.'})
+        await res
+          .status(203)
+          .json({message: 'Body is contains empty variables.'})
       }
     } catch (serverErr) {
       await res.status(500).json({message: 'An error occurred'})
