@@ -35,7 +35,7 @@ const getAllWrites = (res) => {
   MongoClient.connect(uri, async (err, client) => {
     let anonDB = client.db('anonwrites').collection('writes')
     try {
-      await anonDB.find().toArray().reverse()
+      await anonDB.find().toArray()
     } catch (error) {
       await res.status(500).json({message: 'An error occurred'})
     } finally {
